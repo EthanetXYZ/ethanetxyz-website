@@ -10,7 +10,7 @@ Hobby blog for **EthanetXYZ** at **https://ethanet.xyz**. Static site built with
 | Hosting | GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`) | Free, custom domain, builds on every push to `main` |
 | Editor UI | Sveltia CMS at `/admin` (`public/admin/`) | No server needed; commits to the repo → triggers deploy |
 | Design | Clean & minimal, light/dark, logo blue `#0b2be6` | Matches the logo |
-| Fonts | Josefin Sans (display, close to logo), Inter (body), JetBrains Mono (code) — Google Fonts | |
+| Fonts | Outfit (display/headings/nav), Inter (body), JetBrains Mono (code) — Google Fonts | Josefin Sans replaced 2026-10-13: odd metrics, too thin |
 | Search | Pagefind (indexed at build time, `/search/`) | Client-side, no service |
 | Extras at launch | Search, Projects page | RSS & comments (Giscus) declined for now |
 
@@ -23,7 +23,7 @@ src/content/categories/*.json  Categories (filename = id → /category/<id>/)
 src/content/projects/*.md   Projects page entries
 src/lib/content.ts          getPosts() (drafts hidden in prod), getCategories(), readingTime(), slugifyTag()
 src/layouts/Base.astro      <head>, SEO/OG tags, theme bootstrap, header/footer
-src/components/             Header, Footer, PostCard, ProjectCard, CategoryNav, FormattedDate
+src/components/             Header, Footer, FeaturedPost (home hero), PostCard, ProjectCard, CategoryNav, FormattedDate
 src/pages/                  index, blog/, blog/[...slug], category/[category], tags/[tag], projects, about, search, 404
 src/styles/global.css       Design tokens (light + dark), base, chips, grid, prose
 public/admin/               Sveltia CMS (index.html + config.yml)
@@ -36,7 +36,7 @@ public/favicon.png, apple-touch-icon.png, og.png   Generated from logo.webp
 
 ## Content model
 
-**Post frontmatter:** `title`, `description`, `pubDate`, `updatedDate?`, `category` (category file id, e.g. `home-assistant`), `tags[]`, `heroImage?` (public path like `/images/uploads/x.jpg`), `heroAlt?`, `draft` (drafts render in `npm run dev` only).
+**Post frontmatter:** `title`, `description`, `pubDate`, `updatedDate?`, `category` (category file id, e.g. `home-assistant`), `tags[]`, `heroImage?` (public path like `/images/uploads/x.jpg`), `heroAlt?`, `draft` (drafts render in `npm run dev` only), `featured` (newest featured post is the home-page hero; falls back to newest post). Posts without a cover image get a blue `.cover-fallback` panel.
 
 **Categories:** `3d-printing`, `home-assistant`, `open-source`. Add new ones as JSON files (or from the CMS "Categories" collection) — pages and nav pick them up automatically.
 

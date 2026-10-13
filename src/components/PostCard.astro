@@ -11,7 +11,15 @@ const { title, description, pubDate, heroImage, heroAlt, draft } = post.data;
 ---
 
 <article class="card">
-  {heroImage && <img src={heroImage} alt={heroAlt ?? ''} loading="lazy" class="thumb" />}
+  <div class="thumb">
+    {
+      heroImage ? (
+        <img src={heroImage} alt={heroAlt ?? ''} loading="lazy" />
+      ) : (
+        <span class="cover-fallback">{category?.data.name ?? 'Ethanet.XYZ'}</span>
+      )
+    }
+  </div>
   <div class="body">
     <p class="meta">
       {category && <a href={`/category/${category.id}/`} class="cat">{category.data.name}</a>}
@@ -44,9 +52,23 @@ const { title, description, pubDate, heroImage, heroAlt, draft } = post.data;
   }
   .thumb {
     aspect-ratio: 16 / 9;
-    object-fit: cover;
-    width: 100%;
+    overflow: hidden;
     background: var(--bg-soft);
+    border-bottom: 1px solid var(--border);
+  }
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .card:hover .thumb img {
+    transform: scale(1.03);
+  }
+  .thumb .cover-fallback {
+    font-size: 1.6rem;
   }
   .body {
     padding: 1.1rem 1.25rem 1.3rem;

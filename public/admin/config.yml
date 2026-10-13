@@ -61,6 +61,7 @@ collections:
       - { label: Cover image, name: heroImage, widget: image, required: false }
       - { label: Cover image alt text, name: heroAlt, widget: string, required: false }
       - { label: Draft, name: draft, widget: boolean, default: true, hint: 'Drafts are committed but not published on the site.' }
+      - { label: Featured, name: featured, widget: boolean, default: false, hint: 'Show as the big hero on the home page. If several are ticked, the newest one wins.' }
       - { label: Body, name: body, widget: markdown }
 
   - name: projects
