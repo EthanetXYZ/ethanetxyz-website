@@ -13,6 +13,9 @@ Hobby blog for **EthanetXYZ** at **https://ethanet.xyz**. Static site built with
 | Fonts | Outfit (display/headings/nav), Inter (body), JetBrains Mono (code) — Google Fonts | Josefin Sans replaced 2026-10-13: odd metrics, too thin |
 | Search | Pagefind (indexed at build time, `/search/`) | Client-side, no service |
 | Extras at launch | Search, Projects page | RSS & comments (Giscus) declined for now |
+| Code blocks | Expressive Code (`astro-expressive-code`) | Copy button, file titles, line marks, diffs; follows `data-theme` |
+| Project stats | Build-time GitHub API (`src/lib/github.ts`) | Stars/release/language on project cards with a `repo`; daily scheduled rebuild keeps them fresh |
+| Page transitions | Astro `<ClientRouter />` in Base | Scripts must bind on `astro:page-load`; theme carried over in `astro:before-swap` |
 
 ## Layout
 
@@ -57,6 +60,7 @@ If you change a schema field, update **both** `src/content.config.ts` and `publi
 - Colors only via CSS custom properties in `global.css`; dark mode = `prefers-color-scheme` unless `data-theme` set by the toggle (stored in localStorage `theme`).
 - Only the post body is indexed by Pagefind (`data-pagefind-body`); category is a Pagefind filter.
 - The CMS can write empty optional fields as `''`; wrap optional schema fields in `blank()` (src/content.config.ts) so blanks don't fail the build.
+- Page transitions: never bind DOM listeners at module top level; use `document.addEventListener('astro:page-load', ...)`. Inline page scripts re-run on each visit.
 - Sveltia CMS is pinned to an exact version in `public/admin/index.html`; bump deliberately.
 
 ## Setup status / TODO

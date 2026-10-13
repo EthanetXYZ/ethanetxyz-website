@@ -1,12 +1,16 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { slugifyTag } from '../lib/content';
+import { getRepoStats } from '../lib/github';
 
 interface Props {
   project: CollectionEntry<'projects'>;
 }
 const { project } = Astro.props;
 const { title, description, repo, url, status, tags } = project.data;
+const stats = await getRepoStats(repo);
+const fmt = new Intl.NumberFormat('en', { notation: 'compact' });
+const month = (d: Date) => d.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
 ---
 
 <article class="project">
@@ -15,6 +19,26 @@ const { title, description, repo, url, status, tags } = project.data;
     <span class={`status ${status}`}>{status}</span>
   </div>
   <p class="desc">{description}</p>
+  {
+    stats && (
+      <ul class="stats" aria-label="GitHub stats">
+        <li title="GitHub stars">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" /></svg>
+          {fmt.format(stats.stars)}
+          <span class="sr-only">stars</span>
+        </li>
+        {stats.release && (
+          <li>
+            <a href={stats.release.url} title={`Released ${month(stats.release.publishedAt)}`}>
+              {stats.release.tag}
+            </a>
+          </li>
+        )}
+        {stats.language && <li>{stats.language}</li>}
+        <li>Updated {month(stats.pushedAt)}</li>
+      </ul>
+    )
+  }
   {
     tags.length > 0 && (
       <p class="tags">
@@ -75,6 +99,32 @@ const { title, description, repo, url, status, tags } = project.data;
     font-size: 0.95rem;
     line-height: 1.55;
     flex: 1;
+  }
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+    margin: 0.15rem 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  .stats li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .stats svg {
+    color: #e3a008;
+  }
+  .stats a {
+    color: inherit;
+    font-family: var(--font-mono);
+    text-decoration: none;
+  }
+  .stats a:hover {
+    color: var(--link);
   }
   .tags {
     display: flex;

@@ -18,15 +18,18 @@ import Base from '../layouts/Base.astro';
 </Base>
 
 <script is:inline>
+  // Runs on every visit to this page, including via page transitions.
   (function () {
-    const s = document.createElement('script');
-    s.src = '/pagefind/pagefind-ui.js';
-    s.onload = function () {
+    function init() {
       // eslint-disable-next-line no-undef
       const ui = new PagefindUI({ element: '#search', showSubResults: true, showImages: false, resetStyles: false });
       const q = new URLSearchParams(location.search).get('q');
       if (q) ui.triggerSearch(q);
-    };
+    }
+    if (window.PagefindUI) return init();
+    const s = document.createElement('script');
+    s.src = '/pagefind/pagefind-ui.js';
+    s.onload = init;
     s.onerror = function () {
       document.getElementById('search-dev-note').hidden = false;
     };
