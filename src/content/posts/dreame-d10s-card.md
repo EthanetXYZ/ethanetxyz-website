@@ -10,7 +10,7 @@ tags:
   - hacs
 heroImage: /images/uploads/dreame-d10s-card-rooms.png
 heroAlt: The Dreame D10S card showing a floor map with the kitchen and office selected for cleaning
-draft: true
+draft: false
 ---
 
 I wanted to control my Dreame D10S from my Home Assistant dashboard the way I do in the Dreame app: tap a room, press clean, done. So I built my own dashboard card for it, and it's free and open source: [dreame-d10s-card on GitHub](https://github.com/EthanetXYZ/dreame-d10s-card).
