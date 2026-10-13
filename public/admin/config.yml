@@ -15,6 +15,9 @@ backend:
     uploadMedia: 'content: upload "{{path}}"'
     deleteMedia: 'content: delete "{{path}}"'
 
+output:
+  omit_empty_optional_fields: true
+
 site_url: https://ethanet.xyz
 display_url: https://ethanet.xyz
 logo_url: /logo.png

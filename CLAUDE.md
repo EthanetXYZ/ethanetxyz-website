@@ -56,6 +56,7 @@ If you change a schema field, update **both** `src/content.config.ts` and `publi
 - Pages use `Base` layout; spacing via `.container`, `.narrow`, `.section`, `.page-head`; cards in `.grid`.
 - Colors only via CSS custom properties in `global.css`; dark mode = `prefers-color-scheme` unless `data-theme` set by the toggle (stored in localStorage `theme`).
 - Only the post body is indexed by Pagefind (`data-pagefind-body`); category is a Pagefind filter.
+- The CMS can write empty optional fields as `''`; wrap optional schema fields in `blank()` (src/content.config.ts) so blanks don't fail the build.
 - Sveltia CMS is pinned to an exact version in `public/admin/index.html`; bump deliberately.
 
 ## Setup status / TODO

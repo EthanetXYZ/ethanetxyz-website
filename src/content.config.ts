@@ -2,6 +2,10 @@ import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+// The CMS writes empty optional fields as ''. Treat those as "not set".
+const blank = <T extends z.ZodType>(schema: T) =>
+  z.preprocess((v) => (v === '' || v === null ? undefined : v), schema.optional());
+
 // Field names here must stay in sync with public/admin/config.yml (the CMS).
 
 const categories = defineCollection({
@@ -19,11 +23,11 @@ const posts = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
+    updatedDate: blank(z.coerce.date()),
     category: reference('categories'),
     tags: z.array(z.string()).default([]),
-    heroImage: z.string().optional(),
-    heroAlt: z.string().optional(),
+    heroImage: blank(z.string()),
+    heroAlt: blank(z.string()),
     draft: z.boolean().default(false),
   }),
 });
@@ -33,10 +37,10 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    repo: z.url().optional(),
-    url: z.url().optional(),
+    repo: blank(z.url()),
+    url: blank(z.url()),
     status: z.enum(['active', 'maintained', 'experimental', 'archived']).default('active'),
-    category: reference('categories').optional(),
+    category: blank(reference('categories')),
     tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
     order: z.number().default(100),
