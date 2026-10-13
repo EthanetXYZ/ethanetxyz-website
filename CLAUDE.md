@@ -60,7 +60,7 @@ If you change a schema field, update **both** `src/content.config.ts` and `publi
 
 - [x] Create GitHub repo, push, set `backend.repo` in `public/admin/config.yml` → done: `EthanetXYZ/ethanetxyz-website`
 - [x] Repo Settings → Pages → Source: **GitHub Actions**; custom domain `ethanet.xyz`, enforce HTTPS (tick "Enforce HTTPS" once DNS resolves)
-- [ ] DNS: apex `A` records → 185.199.108.153 / .109.153 / .110.153 / .111.153 (+ `AAAA` 2606:50c0:8000::153 …8003::153), `www` CNAME → `ethanetxyz.github.io`
+- [x] DNS: apex `A` records → 185.199.108.153 / .109.153 / .110.153 / .111.153 (+ `AAAA` 2606:50c0:8000::153 …8003::153), `www` CNAME → `ethanetxyz.github.io`
 - [ ] CMS auth: fine-grained PAT (Contents read/write on this repo) **or** deploy Sveltia CMS Authenticator (Cloudflare Worker) and set `base_url`
 - [ ] Fill in About page (`src/pages/about.astro`) + GitHub link
 - [ ] Optional later: Unraid-hosted editor (see below), RSS (`@astrojs/rss`), Giscus comments, OG image generation
