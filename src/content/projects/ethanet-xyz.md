@@ -6,6 +6,6 @@ status: active
 category: open-source
 tags:
   - astro
-featured: true
+featured: false
 order: 1
 ---
