@@ -1,5 +1,5 @@
 ---
-title: Hello, world Test
+title: Hello, world
 description: Welcome to Ethanet.XYZ — what this blog is for and what's coming up.
 pubDate: 2026-10-13
 updatedDate: ''
