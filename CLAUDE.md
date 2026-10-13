@@ -74,3 +74,7 @@ If you change a schema field, update **both** `src/content.config.ts` and `publi
 1. Run a tiny nginx container on Unraid serving only `public/admin/` (same config.yml) — it still commits via the GitHub API, or
 2. Build a custom Docker app (editor + image upload) that commits via the GitHub API / a deploy key.
 Either way GitHub Actions remains the only thing that builds and deploys.
+
+## Writing posts from other projects
+
+A user-level Claude Code skill at `~/.claude/skills/ethanet-blog-post/SKILL.md` teaches every Claude Code session how to write a post for this site (frontmatter, categories, voice, public-repo safety, build + push). If you change the post schema or categories workflow here, update that skill too.
