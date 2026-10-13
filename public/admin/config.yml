@@ -1,0 +1,107 @@
+# Sveltia CMS config — https://github.com/sveltia/sveltia-cms
+# Field names MUST match the schemas in src/content.config.ts.
+
+backend:
+  name: github
+  repo: EthanetXYZ/ethanetxyz-website
+  branch: main
+  # Sign in with a fine-grained Personal Access Token (Contents: read & write on this repo),
+  # or deploy the Sveltia CMS Authenticator (Cloudflare Worker) and set its URL here for OAuth:
+  # base_url: https://sveltia-cms-auth.<your-subdomain>.workers.dev
+  commit_messages:
+    create: 'content: create {{collection}} "{{slug}}"'
+    update: 'content: update {{collection}} "{{slug}}"'
+    delete: 'content: delete {{collection}} "{{slug}}"'
+    uploadMedia: 'content: upload "{{path}}"'
+    deleteMedia: 'content: delete "{{path}}"'
+
+site_url: https://ethanet.xyz
+display_url: https://ethanet.xyz
+logo_url: /favicon.svg
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+collections:
+  - name: posts
+    label: Blog posts
+    label_singular: Blog post
+    folder: src/content/posts
+    create: true
+    extension: md
+    format: frontmatter
+    slug: '{{slug}}'
+    summary: '{{title}} — {{pubDate | date("YYYY-MM-DD")}}{{draft | ternary(" (draft)", "")}}'
+    sortable_fields: [pubDate, title, category]
+    view_filters:
+      - { label: Drafts, field: draft, pattern: true }
+    view_groups:
+      - { label: Category, field: category }
+    preview_path: blog/{{slug}}/
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text, hint: 'One or two sentences. Shown on cards and in search results.' }
+      - { label: Publish date, name: pubDate, widget: datetime, time_format: false, date_format: 'YYYY-MM-DD', format: 'YYYY-MM-DD' }
+      - { label: Updated date, name: updatedDate, widget: datetime, time_format: false, date_format: 'YYYY-MM-DD', format: 'YYYY-MM-DD', required: false }
+      - label: Category
+        name: category
+        widget: relation
+        collection: categories
+        value_field: '{{slug}}'
+        search_fields: [name]
+        display_fields: [name]
+      - { label: Tags, name: tags, widget: list, required: false, hint: 'Comma-separated, lowercase. e.g. klipper, voron' }
+      - { label: Cover image, name: heroImage, widget: image, required: false }
+      - { label: Cover image alt text, name: heroAlt, widget: string, required: false }
+      - { label: Draft, name: draft, widget: boolean, default: true, hint: 'Drafts are committed but not published on the site.' }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: projects
+    label: Projects
+    label_singular: Project
+    folder: src/content/projects
+    create: true
+    extension: md
+    format: frontmatter
+    slug: '{{slug}}'
+    summary: '{{title}} ({{status}})'
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Source repo URL, name: repo, widget: string, required: false }
+      - { label: Website URL, name: url, widget: string, required: false }
+      - label: Status
+        name: status
+        widget: select
+        default: active
+        options: [active, maintained, experimental, archived]
+      - label: Category
+        name: category
+        widget: relation
+        collection: categories
+        value_field: '{{slug}}'
+        search_fields: [name]
+        display_fields: [name]
+        required: false
+      - { label: Tags, name: tags, widget: list, required: false }
+      - { label: Featured on home page, name: featured, widget: boolean, default: false }
+      - { label: Sort order, name: order, widget: number, value_type: int, default: 100 }
+      - { label: Notes, name: body, widget: markdown, required: false }
+
+  - name: categories
+    label: Categories
+    label_singular: Category
+    folder: src/content/categories
+    create: true
+    extension: json
+    format: json
+    identifier_field: name
+    slug: '{{name}}'
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Sort order, name: order, widget: number, value_type: int, default: 100 }

@@ -1,0 +1,24 @@
+---
+import { getCategories } from '../lib/content';
+
+interface Props {
+  current?: string;
+}
+const { current } = Astro.props;
+const categories = await getCategories();
+---
+
+<nav aria-label="Categories">
+  <ul class="chips">
+    <li><a class="chip" href="/blog/" aria-current={!current ? 'page' : undefined}>All posts</a></li>
+    {
+      categories.map((c) => (
+        <li>
+          <a class="chip" href={`/category/${c.id}/`} aria-current={current === c.id ? 'page' : undefined}>
+            {c.data.name}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

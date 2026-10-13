@@ -1,0 +1,5 @@
+{
+  "name": "Home Assistant",
+  "description": "Automations, dashboards, integrations and smart home hardware.",
+  "order": 2
+}

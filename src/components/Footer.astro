@@ -1,0 +1,44 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container row">
+    <p>© {year} Ethanet.XYZ · A hobby blog about making things.</p>
+    <p class="links">
+      <a href="/blog/">Blog</a>
+      <a href="/projects/">Projects</a>
+      <a href="/sitemap-index.xml">Sitemap</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: 4rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding-block: 1.5rem;
+  }
+  p {
+    margin: 0;
+  }
+  .links {
+    display: flex;
+    gap: 1rem;
+  }
+  a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--link);
+  }
+</style>

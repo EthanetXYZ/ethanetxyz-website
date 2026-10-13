@@ -1,0 +1,98 @@
+---
+import FormattedDate from './FormattedDate.astro';
+import { readingTime, type Category, type Post } from '../lib/content';
+
+interface Props {
+  post: Post;
+  category?: Category;
+}
+const { post, category } = Astro.props;
+const { title, description, pubDate, heroImage, heroAlt, draft } = post.data;
+---
+
+<article class="card">
+  {heroImage && <img src={heroImage} alt={heroAlt ?? ''} loading="lazy" class="thumb" />}
+  <div class="body">
+    <p class="meta">
+      {category && <a href={`/category/${category.id}/`} class="cat">{category.data.name}</a>}
+      <FormattedDate date={pubDate} />
+      <span aria-hidden="true">·</span>
+      <span>{readingTime(post.body)} min read</span>
+      {draft && <span class="draft">Draft</span>}
+    </p>
+    <h3><a href={`/blog/${post.id}/`}>{title}</a></h3>
+    <p class="desc">{description}</p>
+  </div>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s;
+  }
+  .card:hover {
+    border-color: color-mix(in srgb, var(--brand) 45%, var(--border));
+    box-shadow: var(--shadow);
+  }
+  .thumb {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    width: 100%;
+    background: var(--bg-soft);
+  }
+  .body {
+    padding: 1.1rem 1.25rem 1.3rem;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0 0 0.5rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  .cat {
+    position: relative;
+    z-index: 1;
+    color: var(--brand);
+    font-weight: 600;
+    text-decoration: none;
+    margin-right: 0.25rem;
+  }
+  .draft {
+    background: #f59e0b;
+    color: #1a1200;
+    border-radius: 4px;
+    padding: 0 0.4rem;
+    font-weight: 600;
+  }
+  h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.25rem;
+  }
+  h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  /* whole card clickable */
+  h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .desc {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+</style>

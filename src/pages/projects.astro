@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) =>
+    Number(b.data.featured) - Number(a.data.featured) ||
+    a.data.order - b.data.order ||
+    a.data.title.localeCompare(b.data.title),
+);
+const current = projects.filter((p) => p.data.status !== 'archived');
+const archived = projects.filter((p) => p.data.status === 'archived');
+---
+
+<Base title="Projects" description="Open source software, Home Assistant integrations and 3D printing designs.">
+  <header class="container page-head">
+    <h1>Projects</h1>
+    <p class="muted">Things I'm building and maintaining. Most of it is open source — pull requests welcome.</p>
+  </header>
+  <section class="container section">
+    <div class="grid">
+      {current.map((p) => <ProjectCard project={p} />)}
+    </div>
+    {projects.length === 0 && <p class="muted">Projects coming soon.</p>}
+  </section>
+  {
+    archived.length > 0 && (
+      <section class="container section">
+        <div class="section-title">
+          <h2>Archived</h2>
+        </div>
+        <div class="grid">
+          {archived.map((p) => (
+            <ProjectCard project={p} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+</Base>

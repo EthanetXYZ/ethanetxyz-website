@@ -1,0 +1,38 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import CategoryNav from '../../components/CategoryNav.astro';
+import { getCategories, getPosts, type Category } from '../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const posts = await getPosts();
+  return (await getCategories()).map((category) => ({
+    params: { category: category.id },
+    props: { category, posts: posts.filter((p) => p.data.category.id === category.id) },
+  }));
+}) satisfies GetStaticPaths;
+
+const { category, posts } = Astro.props as { category: Category; posts: Awaited<ReturnType<typeof getPosts>> };
+---
+
+<Base title={category.data.name} description={category.data.description}>
+  <header class="container page-head">
+    <p class="eyebrow">Category</p>
+    <h1>{category.data.name}</h1>
+    <p class="muted">{category.data.description}</p>
+  </header>
+  <section class="container section">
+    <CategoryNav current={category.id} />
+    <div class="grid list">
+      {posts.map((p) => <PostCard post={p} category={category} />)}
+    </div>
+    {posts.length === 0 && <p class="muted">Nothing here yet.</p>}
+  </section>
+</Base>
+
+<style>
+  .list {
+    margin-top: 1.5rem;
+  }
+</style>

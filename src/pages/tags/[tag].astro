@@ -1,0 +1,59 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCategoryMap, getPosts, slugifyTag } from '../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const posts = await getPosts();
+  const projects = await getCollection('projects');
+  const tags = new Map<string, string>();
+  for (const t of [...posts, ...projects].flatMap((e) => e.data.tags)) tags.set(slugifyTag(t), t);
+
+  return [...tags].map(([slug, label]) => ({
+    params: { tag: slug },
+    props: {
+      label,
+      posts: posts.filter((p) => p.data.tags.some((t) => slugifyTag(t) === slug)),
+      projects: projects.filter((p) => p.data.tags.some((t) => slugifyTag(t) === slug)),
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { label, posts, projects } = Astro.props;
+const catMap = await getCategoryMap();
+---
+
+<Base title={`#${label}`} description={`Posts and projects tagged ${label}.`}>
+  <header class="container page-head">
+    <p class="eyebrow">Tag</p>
+    <h1>#{label}</h1>
+  </header>
+  {
+    posts.length > 0 && (
+      <section class="container section">
+        <div class="grid">
+          {posts.map((p) => (
+            <PostCard post={p} category={catMap.get(p.data.category.id)} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+  {
+    projects.length > 0 && (
+      <section class="container section">
+        <div class="section-title">
+          <h2>Projects</h2>
+        </div>
+        <div class="grid">
+          {projects.map((p) => (
+            <ProjectCard project={p} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+</Base>

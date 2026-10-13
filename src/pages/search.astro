@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Search" description="Search every post on Ethanet.XYZ.">
+  <link slot="head" rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+  <header class="container narrow page-head">
+    <h1>Search</h1>
+  </header>
+  <section class="container narrow section">
+    <div id="search"></div>
+    <noscript><p class="muted">Search needs JavaScript enabled.</p></noscript>
+    <p id="search-dev-note" class="muted" hidden>
+      Search index not found. It's generated at build time — run <code>npm run build &amp;&amp; npm run preview</code>
+      to try search locally.
+    </p>
+  </section>
+</Base>
+
+<script is:inline>
+  (function () {
+    const s = document.createElement('script');
+    s.src = '/pagefind/pagefind-ui.js';
+    s.onload = function () {
+      // eslint-disable-next-line no-undef
+      const ui = new PagefindUI({ element: '#search', showSubResults: true, showImages: false, resetStyles: false });
+      const q = new URLSearchParams(location.search).get('q');
+      if (q) ui.triggerSearch(q);
+    };
+    s.onerror = function () {
+      document.getElementById('search-dev-note').hidden = false;
+    };
+    document.head.appendChild(s);
+  })();
+</script>
+
+<style is:global>
+  #search {
+    --pagefind-ui-scale: 0.9;
+    --pagefind-ui-primary: var(--brand);
+    --pagefind-ui-text: var(--text);
+    --pagefind-ui-background: var(--surface);
+    --pagefind-ui-border: var(--border);
+    --pagefind-ui-tag: var(--bg-soft);
+    --pagefind-ui-border-radius: 10px;
+    --pagefind-ui-font: var(--font-body);
+  }
+</style>

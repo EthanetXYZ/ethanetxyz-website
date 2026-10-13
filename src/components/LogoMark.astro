@@ -1,0 +1,23 @@
+---
+// The blue blob from the Ethanet.XYZ logo, as inline SVG so it works in dark mode.
+interface Props {
+  size?: number;
+}
+const { size = 34 } = Astro.props;
+---
+
+<svg width={size} height={size} viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+  <path
+    fill="#0b2be6"
+    d="M55 5c17-2 31 5 37 17 5 10 0 20 3 32 3 14 0 26-11 33-12 8-25 6-38 9C33 99 19 95 11 84 3 73 6 61 5 48 4 34 3 21 14 13 25 6 39 7 55 5z"
+  ></path>
+  <text
+    x="50"
+    y="64"
+    text-anchor="middle"
+    fill="#fff"
+    font-family="Josefin Sans, system-ui, sans-serif"
+    font-size="46"
+    font-weight="300">E</text
+  >
+</svg>
