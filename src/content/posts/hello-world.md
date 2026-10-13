@@ -1,11 +1,14 @@
 ---
-title: Hello, world
+title: Hello, world Test
 description: Welcome to Ethanet.XYZ — what this blog is for and what's coming up.
 pubDate: 2026-10-13
+updatedDate: ''
 category: open-source
 tags:
   - meta
   - astro
+heroImage: ''
+heroAlt: ''
 draft: false
 ---
 
