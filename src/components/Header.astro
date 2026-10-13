@@ -1,6 +1,4 @@
 ---
-import LogoMark from './LogoMark.astro';
-
 const links = [
   { href: '/blog/', label: 'Blog' },
   { href: '/projects/', label: 'Projects' },
@@ -12,9 +10,8 @@ const isActive = (href: string) => path.startsWith(href) || (href === '/blog/' &
 
 <header class="site-header">
   <div class="container bar">
-    <a href="/" class="brand" aria-label="Ethanet.XYZ home">
-      <LogoMark />
-      <span class="wordmark">Ethanet<span class="tld">.XYZ</span></span>
+    <a href="/" class="brand">
+      <img src="/logo.png" alt="Ethanet.XYZ" width="56" height="56" />
     </a>
     <nav aria-label="Main">
       {
@@ -70,23 +67,16 @@ const isActive = (href: string) => path.startsWith(href) || (href === '/blog/' &
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    min-height: 64px;
+    min-height: 68px;
   }
   .brand {
     display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    text-decoration: none;
-    color: var(--text);
+    padding-block: 4px;
   }
-  .wordmark {
-    font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 300;
-    padding-top: 4px;
-  }
-  .tld {
-    color: var(--text-muted);
+  .brand img {
+    display: block;
+    width: 56px;
+    height: 56px;
   }
   nav {
     display: flex;
@@ -134,9 +124,6 @@ const isActive = (href: string) => path.startsWith(href) || (href === '/blog/' &
     }
   }
   @media (max-width: 520px) {
-    .wordmark {
-      display: none;
-    }
     nav a {
       padding-inline: 0.45rem;
     }

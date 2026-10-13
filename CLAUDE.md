@@ -23,13 +23,15 @@ src/content/categories/*.json  Categories (filename = id → /category/<id>/)
 src/content/projects/*.md   Projects page entries
 src/lib/content.ts          getPosts() (drafts hidden in prod), getCategories(), readingTime(), slugifyTag()
 src/layouts/Base.astro      <head>, SEO/OG tags, theme bootstrap, header/footer
-src/components/             Header, Footer, LogoMark (SVG blob), PostCard, ProjectCard, CategoryNav, FormattedDate
+src/components/             Header, Footer, PostCard, ProjectCard, CategoryNav, FormattedDate
 src/pages/                  index, blog/, blog/[...slug], category/[category], tags/[tag], projects, about, search, 404
 src/styles/global.css       Design tokens (light + dark), base, chips, grid, prose
 public/admin/               Sveltia CMS (index.html + config.yml)
 public/images/uploads/      CMS media uploads (served at /images/uploads/…)
 public/CNAME                ethanet.xyz
-public/logo.webp            Original logo (used as default OG image)
+public/logo.webp            Original logo (source, white background)
+public/logo.png             Transparent cut-out of the logo (header, CMS)
+public/favicon.png, apple-touch-icon.png, og.png   Generated from logo.webp
 ```
 
 ## Content model

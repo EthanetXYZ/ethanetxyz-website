@@ -17,7 +17,7 @@ backend:
 
 site_url: https://ethanet.xyz
 display_url: https://ethanet.xyz
-logo_url: /favicon.svg
+logo_url: /logo.png
 
 media_folder: public/images/uploads
 public_folder: /images/uploads
